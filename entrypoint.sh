@@ -71,6 +71,7 @@ http {
     default upgrade;
     '' close;
   }
+  error_log  /var/log/nginx/error_log;
   proxy_buffer_size   $PROXY_BUFFER_SIZE;
   proxy_buffers   $PROXY_BUFFERS;
   proxy_busy_buffers_size   $PROXY_BUSY_BUFFERS_SIZE;
@@ -367,4 +368,8 @@ printf "\n\n ********** GENERATED NGINX HTTPS/AUTH PROXY: ********** \n\n\n"
 
 cp /tmp/nginx.conf /etc/nginx/
 
-nginx -g "daemon off;"
+# Run in foreground
+# nginx -g "daemon off;"
+nginx # Run in background
+
+tail -f /var/log/nginx/error_log
