@@ -16,6 +16,10 @@ SERVER_NAMES_HASH_SIZE=${SERVER_NAMES_HASH_SIZE-"32"}
 PROXY_HEADER_HOST=${PROXY_HEADER_HOST-'$host'}  # E.g., $host, $http_host, example.com:4443, etc.
 CORS_ORIGIN=${CORS_ORIGIN-"$SERVER_NAME"}
 
+PROXY_BUFFERS=${PROXY_BUFFERS-"8 8k"}
+PROXY_BUFFER_SIZE=${PROXY_BUFFER_SIZE-"4k"}
+PROXY_BUSY_BUFFERS_SIZE=${PROXY_BUSY_BUFFERS_SIZE-"8k"}
+
 if [ "$SERVER_NAME" == "" ]; then
   echo "You forgot to set the env var 'SERVER_NAME'"
   exit -69
@@ -67,6 +71,9 @@ http {
     default upgrade;
     '' close;
   }
+  proxy_buffer_size   $PROXY_BUFFER_SIZE;
+  proxy_buffers   $PROXY_BUFFERS;
+  proxy_busy_buffers_size   $PROXY_BUSY_BUFFERS_SIZE;
 EOF
 
 index=0
@@ -280,8 +287,10 @@ cat << EOF >> /tmp/nginx.conf
       proxy_http_version 1.1;
       proxy_set_header Host ${PROXY_HEADER_HOST};
       proxy_set_header X-Forwarded-Proto \$scheme;
-      proxy_set_header X-Real-IP  \$remote_addr;
+      proxy_set_header X-Real-IP \$remote_addr;
       proxy_set_header X-Forwarded-Port \$server_port;
+      proxy_set_header X-Forwarded-Host \$host;
+      proxy_set_header X-Forwarded-Server \$host;
       proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
       proxy_set_header Upgrade \$http_upgrade;
       proxy_set_header Connection \$connection_upgrade;

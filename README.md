@@ -108,3 +108,6 @@ services:
 | TLS_PROTOCOLS          |    🔘    |   `TLSv1 TLSv1.1 TLSv1.2`   | Supported TLS protocols for the nginx configuration
 | EXPIRES_DEFAULT        |    🔘    |         | [Supported](https://nginx.org/en/docs/http/ngx_http_headers_module.html) `expires` configuration for the nginx
 | LOW_LATENCY            |    🔘    |         | Set to `true` to disable proxy buffering
+| PROXY_BUFFERS           |   🔘    |  `8 8k` | [`proxy_buffers` setting value](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffers)
+| PROXY_BUFFER_SIZE       |   🔘    |   `4k`  | [`proxy_buffer_size` setting value](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffer_size)
+| PROXY_BUSY_BUFFERS_SIZE |   🔘    |   `8k`  | [`proxy_busy_buffers_size` setting value](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_busy_buffers_size)
