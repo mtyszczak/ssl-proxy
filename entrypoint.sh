@@ -72,9 +72,6 @@ http {
     '' close;
   }
   error_log  /var/log/nginx/error_log;
-  proxy_buffer_size   $PROXY_BUFFER_SIZE;
-  proxy_buffers   $PROXY_BUFFERS;
-  proxy_busy_buffers_size   $PROXY_BUSY_BUFFERS_SIZE;
 EOF
 
 index=0
@@ -325,11 +322,9 @@ else
   cat << EOF >> /tmp/nginx.conf
       # Recommended: Generalized defaults - Tested on greylog & rancher 2017-01-11 ?
       proxy_buffering on;
-      proxy_buffer_size 2k;
-      proxy_buffers 16 4k;
-      proxy_busy_buffers_size 8k;
-      proxy_temp_file_write_size 128k;
-      # proxy_max_temp_file_size 2m; # remove?
+      proxy_buffer_size   $PROXY_BUFFER_SIZE;
+      proxy_buffers   $PROXY_BUFFERS;
+      proxy_busy_buffers_size   $PROXY_BUSY_BUFFERS_SIZE;
 EOF
 fi
 
